@@ -48,6 +48,8 @@ jobs:
       
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "7.42"
       
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
@@ -612,10 +614,10 @@ jobs:
           directory: ${{ github.workspace }}/dist
       
       - name: Upload Release
-        uses: ncipollo/release-action@v1.12.0
+        uses: actions/upload-artifact@v4
         with:
-          artifacts: "DoL-ModLoader-${{ github.sha }}-APK.zip"
-          token: ${{ secrets.GITHUB_TOKEN }}
+          name: DoL-ModLoader-${{ github.sha }}-APK.zip
+          path: DoL-ModLoader-${{ github.sha }}-APK.zip
 
 #      - name: Upload
 #        uses: actions/upload-artifact@v3
