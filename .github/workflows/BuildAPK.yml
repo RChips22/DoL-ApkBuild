@@ -34,6 +34,12 @@ jobs:
       - name: corepack enable
         run: corepack enable
 
+      - name: Setup cordova
+        run: | 
+          npm install -g cordova
+          cordova telemetry off
+          cordova prepare
+
       - name: Setup JDK 17
         uses: actions/setup-java@v3
         with:
