@@ -617,7 +617,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: DoL-ModLoader-${{ github.sha }}-APK.zip
-          path: DoL-ModLoader-${{ github.sha }}-APK.zip
+          path: ${{ github.workspace }}/dist/DoL-ModLoader-${{ github.sha }}-APK.zip
 
 #      - name: Upload
 #        uses: actions/upload-artifact@v3
