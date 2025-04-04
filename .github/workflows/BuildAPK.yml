@@ -97,6 +97,22 @@ jobs:
           yarn run ts:ForSC2
           yarn run webpack:insertTools
           yarn run tras:babel
+
+      - name: Build ModSubUiAngularJs
+        working-directory: ${{ github.workspace }}/ModLoader/mod/ModSubUiAngularJs
+        run: |
+          yarn install
+          yarn run build:ts
+          yarn run build:webpack
+          node "${{ github.workspace }}/ModLoader/dist-insertTools/packModZip.js" "boot.json"
+      - name: Copy ModSubUiAngularJs
+        uses: Lyoko-Jeremie/js-copy-github-action@master
+        with:
+          srcBase: ${{ github.workspace }}/ModLoader/
+          source: ${{ github.workspace }}/ModLoader/mod/ModSubUiAngularJs/ModSubUiAngularJs.mod.zip
+          destBase: ${{ github.workspace }}/ModLoader/out
+          target: ${{ github.workspace }}/ModLoader/out
+
       - name: Build ModLoaderGui
         working-directory: ${{ github.workspace }}/ModLoader/mod/ModLoaderGui
         run: |
@@ -118,13 +134,21 @@ jobs:
           yarn install
           yarn run build:ts
           yarn run build:webpack
+          yarn run build-core:webpack
           node "${{ github.workspace }}/ModLoader/dist-insertTools/packModZip.js" "boot.json"
-
+          node "${{ github.workspace }}/ModLoader/dist-insertTools/packModZip.js" "boot-core.json"
       - name: Copy ImageLoaderHook
         uses: Lyoko-Jeremie/js-copy-github-action@master
         with:
           srcBase: ${{ github.workspace }}/ModLoader/
           source: ${{ github.workspace }}/ModLoader/mod/ImageLoaderHook/ModLoader DoL ImageLoaderHook.mod.zip
+          destBase: ${{ github.workspace }}/ModLoader/out
+          target: ${{ github.workspace }}/ModLoader/out
+      - name: Copy ImageLoaderHook
+        uses: Lyoko-Jeremie/js-copy-github-action@master
+        with:
+          srcBase: ${{ github.workspace }}/ModLoader/
+          source: ${{ github.workspace }}/ModLoader/mod/ImageLoaderHook/ModLoader ImageLoaderHookCore.mod.zip
           destBase: ${{ github.workspace }}/ModLoader/out
           target: ${{ github.workspace }}/ModLoader/out
 
@@ -442,18 +466,18 @@ jobs:
           destBase: ${{ github.workspace }}/ModLoader/out
           target: ${{ github.workspace }}/ModLoader/out
 
-      - name: Build ModSubUiAngularJs
-        working-directory: ${{ github.workspace }}/ModLoader/mod/ModSubUiAngularJs
+      - name: Build ImageLoaderHook2BeautySelectorAddon
+        working-directory: ${{ github.workspace }}/ModLoader/mod/ImageLoaderHook2BeautySelectorAddon
         run: |
           yarn install
           yarn run build:ts
           yarn run build:webpack
           node "${{ github.workspace }}/ModLoader/dist-insertTools/packModZip.js" "boot.json"
-      - name: Copy ModSubUiAngularJs
+      - name: Copy ImageLoaderHook2BeautySelectorAddon
         uses: Lyoko-Jeremie/js-copy-github-action@master
         with:
           srcBase: ${{ github.workspace }}/ModLoader/
-          source: ${{ github.workspace }}/ModLoader/mod/ModSubUiAngularJs/ModSubUiAngularJs.mod.zip
+          source: ${{ github.workspace }}/ModLoader/mod/ImageLoaderHook2BeautySelectorAddon/ImageLoaderHook2BeautySelectorAddon.mod.zip
           destBase: ${{ github.workspace }}/ModLoader/out
           target: ${{ github.workspace }}/ModLoader/out
 
@@ -482,7 +506,7 @@ jobs:
         id: ReadGameVersion
         working-directory: ${{ github.workspace }}
         run: |
-          node "${{ github.workspace }}/readGameVersion.js" "${{ github.workspace }}/DoL/game/01-config/sugarcubeConfig.js"
+          node "${{ github.workspace }}/readGameVersion.js" "${{ github.workspace }}/DOL/game/01-config/sugarcubeConfig.js"
       # now we get the ${{ steps.ReadGameVersion.outputs.GameVersionString }}
       - name: Make GameOriginalImagePack
         if: runner.os == 'Windows'
@@ -579,15 +603,8 @@ jobs:
       - name: Inject ModLoader
         working-directory: ${{ github.workspace }}/ModLoader/out
         run: |
-          node "${{ github.workspace }}/ModLoader/out/dist-insertTools/insert2html.js" "${{ github.workspace }}/DOL/Degrees of Lewdity VERSION.html" "modList.json" "${{ github.workspace }}/ModLoader/out/dist-BeforeSC2/BeforeSC2.js"
-
-#      - name: Archive Release (Artifact)
-#        uses: thedoctor0/zip-release@0.7.1
-#        with:
-#          type: 'zip'
-#          filename: DoL-ModLoader-${{ github.sha }}.zip
-#          directory: ${{ github.workspace }}/output
-
+          node "${{ github.workspace }}/ModLoader/out/dist-insertTools/insert2html.js" "${{ github.workspace }}/DoL/Degrees of Lewdity VERSION.html" "modList.json" "${{ github.workspace }}/ModLoader/out/dist-BeforeSC2/BeforeSC2.js"
+          
 
 # make package  Init =========================================      
       - name: MKDIR
